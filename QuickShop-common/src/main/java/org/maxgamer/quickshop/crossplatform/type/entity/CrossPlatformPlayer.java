@@ -21,10 +21,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public interface CrossPlatformPlayer extends CrossPlatformEntity {
+public abstract class CrossPlatformPlayer extends CrossPlatformEntity {
     @NotNull
-    UUID getUniqueId();
+    abstract UUID getUniqueId();
 
     @NotNull
-    String getName();
+    abstract String getName();
 }

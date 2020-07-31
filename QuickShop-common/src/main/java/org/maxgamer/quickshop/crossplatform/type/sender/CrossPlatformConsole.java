@@ -17,5 +17,5 @@
 
 package org.maxgamer.quickshop.crossplatform.type.sender;
 
-public interface CrossPlatformConsole extends CrossPlatformCommandSender {
+public abstract class CrossPlatformConsole extends CrossPlatformCommandSender {
 }

@@ -20,7 +20,7 @@ package org.maxgamer.quickshop.crossplatform.type.world;
 import org.jetbrains.annotations.NotNull;
 import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
 
-public interface CrossPlatformWorld extends CrossPlatformUniversal {
+public abstract class CrossPlatformWorld implements CrossPlatformUniversal {
     @NotNull
-    String getName();
+    abstract String getName();
 }

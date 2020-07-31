@@ -20,20 +20,20 @@ package org.maxgamer.quickshop.crossplatform.type.location;
 import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
 import org.maxgamer.quickshop.crossplatform.type.world.CrossPlatformWorld;
 
-public interface CrossPlatformLocation extends CrossPlatformUniversal {
-    double getX();
+public abstract class CrossPlatformLocation implements CrossPlatformUniversal {
+    abstract double getX();
 
-    double getY();
+    abstract double getY();
 
-    double getZ();
+    abstract double getZ();
 
-    int getBlockX();
+    abstract int getBlockX();
 
-    int getBlockY();
+    abstract int getBlockY();
 
-    int getBlockZ();
+    abstract int getBlockZ();
 
-    CrossPlatformLocation getBlock();
+    abstract CrossPlatformLocation getBlock();
 
-    CrossPlatformWorld getWorld();
+    abstract CrossPlatformWorld getWorld();
 }

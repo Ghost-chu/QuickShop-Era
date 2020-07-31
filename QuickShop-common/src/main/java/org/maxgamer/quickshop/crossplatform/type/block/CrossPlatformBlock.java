@@ -19,6 +19,6 @@ package org.maxgamer.quickshop.crossplatform.type.block;
 
 import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
 
-public interface CrossPlatformBlock extends CrossPlatformUniversal {
+public abstract class CrossPlatformBlock implements CrossPlatformUniversal {
 
 }

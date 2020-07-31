@@ -19,6 +19,6 @@ package org.maxgamer.quickshop.crossplatform.type.item;
 
 import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
 
-public interface CrossPlatformItemStack extends CrossPlatformUniversal {
+public abstract class CrossPlatformItemStack implements CrossPlatformUniversal {
 
 }
