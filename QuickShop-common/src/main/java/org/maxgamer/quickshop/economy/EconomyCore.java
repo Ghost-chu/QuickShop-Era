@@ -17,7 +17,6 @@
 
 package org.maxgamer.quickshop.economy;
 
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -79,6 +78,6 @@ public interface EconomyCore {
 
     @NotNull String getName();
 
-    @NotNull Plugin getPlugin();
+    @NotNull String getPluginName();
 
 }

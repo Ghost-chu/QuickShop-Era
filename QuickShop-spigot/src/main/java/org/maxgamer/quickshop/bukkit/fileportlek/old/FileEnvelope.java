@@ -28,10 +28,10 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.maxgamer.quickshop.bukkit.mock.MckFileConfiguration;
+import org.maxgamer.quickshop.bukkit.util.bukkit.location.LocationOf;
+import org.maxgamer.quickshop.bukkit.util.bukkit.location.StringOf;
 import org.maxgamer.quickshop.util.Util;
 import org.maxgamer.quickshop.util.file.Copied;
-import org.maxgamer.quickshop.util.location.LocationOf;
-import org.maxgamer.quickshop.util.location.StringOf;
 
 import java.io.File;
 import java.io.InputStream;

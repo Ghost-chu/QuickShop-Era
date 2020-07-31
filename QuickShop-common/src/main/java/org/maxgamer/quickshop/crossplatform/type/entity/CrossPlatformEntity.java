@@ -17,7 +17,7 @@
 
 package org.maxgamer.quickshop.crossplatform.type.entity;
 
-import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
+import org.maxgamer.quickshop.crossplatform.type.sender.CrossPlatformCommandSender;
 
-public interface CrossPlatformEntity extends CrossPlatformUniversal {
+public interface CrossPlatformEntity extends CrossPlatformCommandSender {
 }

@@ -25,7 +25,6 @@ import io.sentry.event.BreadcrumbBuilder;
 import io.sentry.event.UserBuilder;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
@@ -55,7 +54,6 @@ public class SentryErrorReporter {
     private final List<Class<?>> ignoredException = Lists.newArrayList(IOException.class
             , OutOfMemoryError.class
             , ProtocolException.class
-            , InvalidPluginException.class
             , UnsupportedClassVersionError.class
             , LinkageError.class);
     private Context context;

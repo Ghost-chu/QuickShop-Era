@@ -15,7 +15,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.util;
+package org.maxgamer.quickshop.bukkit.util.bukkit;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;

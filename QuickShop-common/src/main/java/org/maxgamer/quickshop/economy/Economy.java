@@ -19,7 +19,6 @@ package org.maxgamer.quickshop.economy;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.maxgamer.quickshop.QuickShop;
 import org.maxgamer.quickshop.util.Util;
@@ -96,8 +95,8 @@ public class Economy implements EconomyCore {
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
-        return plugin;
+    public @NotNull String getPluginName() {
+        return "QuickShop";
     }
 
 }

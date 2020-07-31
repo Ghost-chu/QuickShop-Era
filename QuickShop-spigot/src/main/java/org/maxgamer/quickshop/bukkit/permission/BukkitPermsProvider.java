@@ -23,7 +23,6 @@ import org.maxgamer.quickshop.permission.PermissionInfomationContainer;
 import org.maxgamer.quickshop.permission.PermissionProvider;
 
 public class BukkitPermsProvider implements PermissionProvider {
-
     @Override
     public boolean hasPermission(@NotNull CommandSender sender, @NotNull String permission) {
         return sender.hasPermission(permission);
@@ -34,17 +33,32 @@ public class BukkitPermsProvider implements PermissionProvider {
         return "Bukkit";
     }
 
-    /**
-     * Get the debug infos in provider
-     *
-     * @param sender     CommandSender
-     * @param permission The permission want to check
-     * @return Debug Infos
-     */
     @Override
-    public @NotNull PermissionInfomationContainer getDebugInfo(
-            @NotNull CommandSender sender, @NotNull String permission) {
+    public @NotNull PermissionInfomationContainer getDebugInfo(@NotNull CommandSender sender, @NotNull String permission) {
         return new PermissionInfomationContainer(sender, permission, null, null);
     }
+//
+//    @Override
+//    public boolean hasPermission(@NotNull CommandSender sender, @NotNull String permission) {
+//        return sender.hasPermission(permission);
+//    }
+//
+//    @Override
+//    public @NotNull String getName() {
+//        return "Bukkit";
+//    }
+//
+//    /**
+//     * Get the debug infos in provider
+//     *
+//     * @param sender     CommandSender
+//     * @param permission The permission want to check
+//     * @return Debug Infos
+//     */
+//    @Override
+//    public @NotNull PermissionInfomationContainer getDebugInfo(
+//            @NotNull CommandSender sender, @NotNull String permission) {
+//        return new PermissionInfomationContainer(sender, permission, null, null);
+//    }
 
 }

@@ -15,12 +15,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.crossplatform.type.world;
+package org.maxgamer.quickshop.crossplatform.type.sender;
 
-import org.jetbrains.annotations.NotNull;
-import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
-
-public interface CrossPlatformWorld extends CrossPlatformUniversal {
-    @NotNull
-    String getName();
+public interface CrossPlatformConsole extends CrossPlatformCommandSender {
 }

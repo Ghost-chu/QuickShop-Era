@@ -15,7 +15,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.economy;
+package org.maxgamer.quickshop.bukkit.economy;
 
 
 import lombok.Getter;
@@ -31,6 +31,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.maxgamer.quickshop.QuickShop;
+import org.maxgamer.quickshop.economy.EconomyCore;
 import org.maxgamer.quickshop.util.Util;
 
 import java.util.Objects;

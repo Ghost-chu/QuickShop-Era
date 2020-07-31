@@ -20,7 +20,6 @@ package org.maxgamer.quickshop.util.error.usererror;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.maxgamer.quickshop.util.MsgUtil;
 
@@ -50,7 +49,7 @@ public class BootError {
      *
      * @param sender The sender you want output the errors.
      */
-    public void printErrors(CommandSender sender) {
+    public void printErrors(Cross sender) {
         MsgUtil.sendMessage(sender, ChatColor.RED + "#####################################################");
         MsgUtil.sendMessage(sender, ChatColor.RED + " QuickShop is disabled, Please fix any errors and restart");
         for (String issue : errors) {
