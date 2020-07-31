@@ -17,9 +17,8 @@
 
 package org.maxgamer.quickshop.util.compatibility;
 
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import org.maxgamer.quickshop.crossplatform.type.entity.CrossPlatformPlayer;
 
 public interface CompatibilityModule {
     /**
@@ -34,7 +33,7 @@ public interface CompatibilityModule {
      *
      * @return Provider Plugin instance
      */
-    @NotNull Plugin getPlugin();
+    @NotNull String getPluginName();
 
     /**
      * Calls CompatibilityModule to toggle the detection status for playerb between on and off
@@ -42,5 +41,5 @@ public interface CompatibilityModule {
      * @param player   The player
      * @param checking On or Off
      */
-    void toggle(@NotNull Player player, boolean checking);
+    void toggle(@NotNull CrossPlatformPlayer player, boolean checking);
 }

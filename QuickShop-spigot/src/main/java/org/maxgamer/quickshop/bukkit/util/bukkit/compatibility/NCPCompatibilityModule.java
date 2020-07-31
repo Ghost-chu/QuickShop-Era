@@ -15,15 +15,15 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.util.compatibility;
+package org.maxgamer.quickshop.bukkit.util.bukkit.compatibility;
 
 import fr.neatmonster.nocheatplus.hooks.NCPExemptionManager;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.maxgamer.quickshop.QuickShop;
 import org.maxgamer.quickshop.util.Util;
+import org.maxgamer.quickshop.util.compatibility.CompatibilityModule;
 
 @AllArgsConstructor
 public class NCPCompatibilityModule implements CompatibilityModule {
@@ -45,8 +45,8 @@ public class NCPCompatibilityModule implements CompatibilityModule {
      * @return Provider Plugin instance
      */
     @Override
-    public @NotNull Plugin getPlugin() {
-        return plugin;
+    public @NotNull String getPluginName() {
+        return "QuickShop";
     }
 
     /**

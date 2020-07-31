@@ -15,7 +15,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.permission;
+package org.maxgamer.quickshop.bukkit.permission;
 
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
@@ -24,6 +24,9 @@ import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.jetbrains.annotations.NotNull;
+import org.maxgamer.quickshop.permission.PermissionInfomationContainer;
+import org.maxgamer.quickshop.permission.PermissionProvider;
+import org.maxgamer.quickshop.permission.ProviderIsEmptyException;
 
 @Deprecated
 public class VaultPermissionProvider implements PermissionProvider {

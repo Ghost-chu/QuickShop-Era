@@ -19,7 +19,7 @@ package org.maxgamer.quickshop.permission;
 
 public enum PermissionProviderType {
     // BUKKIT(0), VAULT(1), LUCKPERMS(2), PERMISSIONEX(3), GROUPMANAGER(4);
-    BUKKIT(0);
+    PLATFORM(0);
 
     final int id;
 

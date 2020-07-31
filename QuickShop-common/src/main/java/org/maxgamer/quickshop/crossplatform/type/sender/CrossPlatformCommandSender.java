@@ -17,7 +17,12 @@
 
 package org.maxgamer.quickshop.crossplatform.type.sender;
 
+import org.jetbrains.annotations.NotNull;
 import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
 
 public abstract class CrossPlatformCommandSender implements CrossPlatformUniversal {
+    @NotNull
+    public abstract String getName();
+
+    public abstract boolean hasPermission(@NotNull String permissionNode);
 }

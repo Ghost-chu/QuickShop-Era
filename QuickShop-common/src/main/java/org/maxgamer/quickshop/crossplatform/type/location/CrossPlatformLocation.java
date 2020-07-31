@@ -23,6 +23,10 @@ import org.maxgamer.quickshop.crossplatform.type.block.CrossPlatformBlock;
 import org.maxgamer.quickshop.crossplatform.type.world.CrossPlatformWorld;
 
 public abstract class CrossPlatformLocation implements CrossPlatformUniversal, CrossPlatformCloneable {
+    public CrossPlatformLocation(String world, double x, double y, double z) {
+
+    }
+
     public abstract double getX();
 
     public abstract double getY();
@@ -38,4 +42,6 @@ public abstract class CrossPlatformLocation implements CrossPlatformUniversal, C
     public abstract CrossPlatformBlock getBlock();
 
     public abstract CrossPlatformWorld getWorld();
+
+
 }

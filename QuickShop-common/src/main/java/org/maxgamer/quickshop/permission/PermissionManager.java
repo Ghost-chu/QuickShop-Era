@@ -18,26 +18,27 @@
 package org.maxgamer.quickshop.permission;
 
 import lombok.Getter;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-import org.maxgamer.quickshop.QuickShop;
+import org.maxgamer.quickshop.crossplatform.type.sender.CrossPlatformCommandSender;
 import org.maxgamer.quickshop.util.Util;
+import org.maxgamer.quickshop.util.logger.LoggerUtil;
+
+import java.util.logging.Logger;
 
 @Getter
 public class PermissionManager {
-    private final QuickShop plugin;
 
     private final PermissionProvider provider;
+    private final Logger logger = LoggerUtil.getLogger();
 
     /**
      * The manager to call permission providers
      *
      * @param plugin Instance
      */
-    public PermissionManager(QuickShop plugin) {
-        this.plugin = plugin;
+    public PermissionManager() {
         provider = new BukkitPermsProvider();
-        plugin.getLogger().info("Selected permission provider: " + provider.getName());
+        logger.info("Selected permission provider: " + provider.getName());
     }
 
     /**
@@ -47,7 +48,7 @@ public class PermissionManager {
      * @param permission The permission node wait to check
      * @return The result of check
      */
-    public boolean hasPermission(@NotNull CommandSender sender, @NotNull String permission) {
+    public boolean hasPermission(@NotNull CrossPlatformCommandSender sender, @NotNull String permission) {
         try {
             boolean result = provider.hasPermission(sender, permission);
             if (Util.isDevMode()) {
@@ -68,10 +69,8 @@ public class PermissionManager {
         } catch (Exception th) {
             plugin.getSentryErrorReporter().ignoreThrow();
             th.printStackTrace();
-            plugin
-                    .getLogger()
-                    .info(
-                            "A error happend, if you believe this is QuickShop problem, please report to us on Issue Tracker or Discord.");
+            logger.info(
+                    "A error happend, if you believe this is QuickShop problem, please report to us on Issue Tracker or Discord.");
             return false;
         }
     }

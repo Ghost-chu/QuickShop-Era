@@ -17,8 +17,8 @@
 
 package org.maxgamer.quickshop.permission;
 
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+import org.maxgamer.quickshop.crossplatform.type.sender.CrossPlatformCommandSender;
 
 public interface PermissionProvider {
     /**
@@ -28,7 +28,7 @@ public interface PermissionProvider {
      * @param permission The permission want to check
      * @return hasPermission
      */
-    boolean hasPermission(@NotNull CommandSender sender, @NotNull String permission);
+    boolean hasPermission(@NotNull CrossPlatformCommandSender sender, @NotNull String permission);
 
     /**
      * Get permission provider name
@@ -47,6 +47,6 @@ public interface PermissionProvider {
      */
     @NotNull
     PermissionInfomationContainer getDebugInfo(
-            @NotNull CommandSender sender, @NotNull String permission);
+            @NotNull CrossPlatformCommandSender sender, @NotNull String permission);
 
 }

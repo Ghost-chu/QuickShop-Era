@@ -15,11 +15,12 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.util.compatibility;
+package org.maxgamer.quickshop.util.
+        ;
 
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.maxgamer.quickshop.util.Util;
+import org.maxgamer.quickshop.crossplatform.type.entity.CrossPlatformPlayer;
+import org.maxgamer.quickshop.util.compatibility.CompatibilityModule;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,7 +38,7 @@ public class CompatibilityManager {
      * @param status true=turn on closed listeners, false=turn off all turned on listeners.
      * @param player The player to check the listeners
      */
-    public void toggleProtectionListeners(boolean status, @NotNull Player player) {
+    public void toggleProtectionListeners(boolean status, @NotNull CrossPlatformPlayer player) {
         for (CompatibilityModule module : this.registeredModules) {
             try {
                 module.toggle(player, status);

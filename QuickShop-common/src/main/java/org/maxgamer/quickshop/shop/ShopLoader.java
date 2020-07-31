@@ -24,7 +24,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.maxgamer.quickshop.QuickShop;
+import org.maxgamer.quickshop.crossplatform.type.item.CrossPlatformItemStack;
 import org.maxgamer.quickshop.crossplatform.type.location.CrossPlatformLocation;
 import org.maxgamer.quickshop.util.Util;
 import org.maxgamer.quickshop.util.logger.LoggerUtil;
@@ -33,10 +33,7 @@ import org.maxgamer.quickshop.util.time.Timer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
@@ -48,14 +45,12 @@ public abstract class ShopLoader {
     private final List<Long> loadTimes = new ArrayList<>();
 
     private final Map<Timer, Double> costCache = new HashMap<>();
-
-    private final QuickShop plugin;
     /* This may contains broken shop, must use null check before load it. */
     private final List<Shop> shopsInDatabase = new CopyOnWriteArrayList<>();
     private final List<ShopDatabaseInfoOrigin> originShopsInDatabase = new CopyOnWriteArrayList<>();
     private int errors;
-    private int loadAfterChunkLoaded = 0;
-    private int loadAfterWorldLoaded = 0;
+    private final int loadAfterChunkLoaded = 0;
+    private final int loadAfterWorldLoaded = 0;
     private int totalLoaded = 0;
     private final Logger logger = LoggerUtil.getLogger();
     //private final WarningSender warningSender;
@@ -65,8 +60,7 @@ public abstract class ShopLoader {
      *
      * @param plugin Plugin main class
      */
-    public ShopLoader(@NotNull QuickShop plugin) {
-        this.plugin = plugin;
+    public ShopLoader() {
         //this.warningSender = new WarningSender(plugin, 15000);
     }
 
@@ -79,79 +73,7 @@ public abstract class ShopLoader {
      *
      * @param worldName The world name
      */
-    public void loadShops(@Nullable String worldName) {
-        boolean backupedDatabaseInDeleteProcess = false;
-        Timer totalLoadTimer = new Timer(true);
-        try {
-            logger.info("Loading shops from the database...");
-            Timer fetchTimer = new Timer(true);
-
-            ResultSet rs = plugin.getDatabaseHelper().selectAllShops();
-            logger
-                    .info("Used " + fetchTimer.endTimer() + "ms to fetch all shops from the database.");
-            while (rs.next()) {
-                Timer singleShopLoadTimer = new Timer(true);
-                ShopDatabaseInfoOrigin origin = new ShopDatabaseInfoOrigin(rs);
-                originShopsInDatabase.add(origin);
-                if (worldName != null && !origin.getWorld().equals(worldName)) {
-                    singleShopLoaded(singleShopLoadTimer);
-                    continue;
-                }
-                ShopDatabaseInfo data = new ShopDatabaseInfo(origin);
-                Shop shop =
-                        new ContainerShop(plugin,
-                                data.getLocation(),
-                                data.getPrice(),
-                                data.getItem(),
-                                data.getModerators(),
-                                data.isUnlimited(),
-                                data.getType(),
-                                data.getExtra());
-                shopsInDatabase.add(shop);
-                this.costCalc(singleShopLoadTimer);
-                if (shopNullCheck(shop)) {
-                    Util.debugLog("Trouble database loading debug: " + data.toString());
-                    Util.debugLog("Somethings gone wrong, skipping the loading...");
-                    loadAfterWorldLoaded++;
-                    singleShopLoaded(singleShopLoadTimer);
-                    continue;
-                }
-                // Load to RAM
-                plugin.getShopManager().loadShop(data.getWorld().getName(), shop);
-                if (Util.isLoaded(shop.getLocation())) {
-                    // Load to World
-                    if (!Util.canBeShop(shop.getLocation().getBlock())) {
-                        Util.debugLog("Target block can't be a shop, removing it from the database...");
-                        // shop.delete();
-                        plugin.getShopManager().removeShop(shop); // Remove from Mem
-                        if (!backupedDatabaseInDeleteProcess) { // Only backup db one time.
-                            backupedDatabaseInDeleteProcess = Util.backupDatabase();
-                            if (backupedDatabaseInDeleteProcess) {
-                                plugin.log("[SHOP LOADER] Removing shop in the database: " + shop.toString() + " - The block can't be shop");
-                                plugin.getDatabaseHelper().removeShop(shop);
-                            }
-                        } else {
-                            plugin.log("[SHOP LOADER] Removing shop in the database: " + shop.toString() + " - The block can't be shop");
-                            plugin.getDatabaseHelper().removeShop(shop);
-                        }
-                        singleShopLoaded(singleShopLoadTimer);
-                        continue;
-                    }
-                    shop.onLoad();
-                    shop.update();
-                } else {
-                    loadAfterChunkLoaded++;
-                }
-                singleShopLoaded(singleShopLoadTimer);
-            }
-            long totalUsedTime = totalLoadTimer.endTimer();
-            long avgPerShop = mean(loadTimes.toArray(new Long[0]));
-            printSuccessMetrics(totalLoaded, totalUsedTime, avgPerShop);
-            printLoadMetrics(this.loadAfterChunkLoaded, this.loadAfterWorldLoaded, 0);
-        } catch (Exception e) {
-            exceptionHandler(e, null);
-        }
-    }
+    public abstract void loadShops(@Nullable String worldName);
 
     private void printLoadMetrics(int loadAfterChunkLoaded, int loadAfterWorldLoaded, int loadFailedShops) {
         if (loadFailedShops == 0) {
@@ -195,37 +117,7 @@ public abstract class ShopLoader {
         return timer.getTimer() - costCache.get(timer);
     }
 
-    @SuppressWarnings("ConstantConditions")
-    private boolean shopNullCheck(@Nullable Shop shop) {
-        if (shop == null) {
-            Util.debugLog("Shop Object is null");
-            return true;
-        }
-        if (shop.getItem() == null) {
-            Util.debugLog("Shop ItemStack is null");
-            return true;
-        }
-        if (shop.getItem().getType() == Material.AIR) {
-            Util.debugLog("Shop ItemStack type can't be AIR");
-            return true;
-        }
-        if (shop.getLocation() == null) {
-            Util.debugLog("Shop Location is null");
-            return true;
-        }
-        if (shop.getLocation().getWorld() == null) {
-            Util.debugLog("Shop World is null");
-            return true;
-        }
-        if (shop.getOwner() == null) {
-            Util.debugLog("Shop Owner is null");
-            return true;
-        }
-        if (Bukkit.getOfflinePlayer(shop.getOwner()).getName() == null) {
-            Util.debugLog("Shop owner not exist on this server, did you reset the playerdata?");
-        }
-        return false;
-    }
+    public abstract boolean shopNullCheck(@Nullable Shop shop);
 
     private @NotNull Long mean(Long[] m) {
         long sum = 0;
@@ -306,11 +198,10 @@ public abstract class ShopLoader {
                     continue;
                 }
                 // Load to RAM
-                Bukkit.getScheduler().runTask(plugin, () -> {
-                    plugin.getDatabaseHelper().createShop(shop, null, null);
-                    plugin.getShopManager().loadShop(data.getWorld().getName(), shop);
-                    shop.update();
-                });
+                plugin.getDatabaseHelper().createShop(shop, null, null);
+                plugin.getShopManager().loadShop(data.getWorld().getName(), shop);
+                shop.update();
+
 
                 success = true;
             } catch (JsonSyntaxException ignore) {
@@ -332,9 +223,9 @@ public abstract class ShopLoader {
     @Getter
     @Setter
     public class ShopDatabaseInfo {
-        private ItemStack item;
+        private CrossPlatformItemStack item;
 
-        private Location location;
+        private CrossPlatformLocation location;
 
         private ShopModerator moderators;
 
@@ -365,7 +256,7 @@ public abstract class ShopLoader {
                 this.world = Bukkit.getWorld(origin.getWorld());
                 this.item = deserializeItem(origin.getItem());
                 this.moderators = deserializeModerator(origin.getModerators());
-                this.location = new Location(world, x, y, z);
+                this.location = new CrossPlatformLocation(world.getName(), x, y, z);
                 //noinspection unchecked
                 this.extra = JsonUtil.getGson().fromJson(origin.getExtra(), Map.class);
                 if (this.extra == null) {
@@ -376,15 +267,13 @@ public abstract class ShopLoader {
             }
         }
 
-        private @Nullable ItemStack deserializeItem(@NotNull String itemConfig) {
+        private @Nullable CrossPlatformItemStack deserializeItem(@NotNull String itemConfig) {
             try {
                 return Util.deserialize(itemConfig);
-            } catch (InvalidConfigurationException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-                plugin
-                        .getLogger()
-                        .warning(
-                                "Failed load shop data, because target config can't deserialize the ItemStack.");
+                logger.warning(
+                        "Failed load shop data, because target config can't deserialize the ItemStack.");
                 Util.debugLog("Failed to load data to the ItemStack: " + itemConfig);
                 return null;
             }

@@ -19,16 +19,16 @@ package org.maxgamer.quickshop.permission;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.bukkit.Server;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.maxgamer.quickshop.crossplatform.type.sender.CrossPlatformCommandSender;
+import org.maxgamer.quickshop.crossplatform.type.sender.CrossPlatformConsole;
 
 @Data
 @AllArgsConstructor
 public class PermissionInfomationContainer {
     @NotNull
-    private CommandSender sender;
+    private CrossPlatformCommandSender sender;
 
     @NotNull
     private String permission;
@@ -45,7 +45,7 @@ public class PermissionInfomationContainer {
      * @return yes or no
      */
     public boolean isConsole() {
-        return sender instanceof Server;
+        return sender instanceof CrossPlatformConsole;
     }
 
 }
