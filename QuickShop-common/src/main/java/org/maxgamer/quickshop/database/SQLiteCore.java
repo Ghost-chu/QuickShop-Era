@@ -17,7 +17,6 @@
 
 package org.maxgamer.quickshop.database;
 
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.maxgamer.quickshop.QuickShop;
@@ -127,8 +126,8 @@ public class SQLiteCore implements DatabaseCore {
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
-        return plugin;
+    public @NotNull String getPluginName() {
+        return "QuickShop";
     }
 
     private void startWatcher() {
