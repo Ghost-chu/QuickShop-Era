@@ -33,8 +33,6 @@ import java.sql.Statement;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-k;
-
 /**
  * A Util to execute all SQLs.
  */
