@@ -17,8 +17,13 @@
 
 package org.maxgamer.quickshop.crossplatform.type.material;
 
-import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
+import org.maxgamer.quickshop.crossplatform.CrossPlatformObject;
+import org.maxgamer.quickshop.crossplatform.type.CrossPlatform;
 
-public abstract class CrossPlatformMaterial implements CrossPlatformUniversal {
+public abstract class CrossPlatformMaterial extends CrossPlatformObject implements CrossPlatform {
+    public CrossPlatformMaterial(Object platformObject) {
+        super(platformObject);
+    }
+
     public abstract String getName();
 }

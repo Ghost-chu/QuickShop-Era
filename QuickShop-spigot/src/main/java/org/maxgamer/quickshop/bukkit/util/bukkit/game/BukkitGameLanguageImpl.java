@@ -15,7 +15,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.util.language.game;
+package org.maxgamer.quickshop.bukkit.util.bukkit.game;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -25,6 +25,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import org.maxgamer.quickshop.QuickShop;
+import org.maxgamer.quickshop.util.language.game.GameLanguage;
+import org.maxgamer.quickshop.util.language.game.InternalGameLanguageImpl;
 
 import java.util.Objects;
 

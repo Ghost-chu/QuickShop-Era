@@ -18,13 +18,13 @@
 package org.maxgamer.quickshop.crossplatform.type.location;
 
 import org.maxgamer.quickshop.crossplatform.CrossPlatformCloneable;
-import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
+import org.maxgamer.quickshop.crossplatform.CrossPlatformObject;
 import org.maxgamer.quickshop.crossplatform.type.block.CrossPlatformBlock;
 import org.maxgamer.quickshop.crossplatform.type.world.CrossPlatformWorld;
 
-public abstract class CrossPlatformLocation implements CrossPlatformUniversal, CrossPlatformCloneable {
-    public CrossPlatformLocation(String world, double x, double y, double z) {
-
+public abstract class CrossPlatformLocation extends CrossPlatformObject implements CrossPlatformCloneable {
+    public CrossPlatformLocation(Object platformObject) {
+        super(platformObject);
     }
 
     public abstract double getX();

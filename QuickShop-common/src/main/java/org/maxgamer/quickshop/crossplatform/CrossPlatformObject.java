@@ -15,10 +15,12 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.crossplatform.type;
+package org.maxgamer.quickshop.crossplatform;
 
-public interface CrossPlatformUniversal {
-    Object get();
+import org.maxgamer.quickshop.crossplatform.type.CrossPlatform;
 
-    void set();
+public abstract class CrossPlatformObject implements CrossPlatform {
+    public CrossPlatformObject(Object platformObject) {
+
+    }
 }

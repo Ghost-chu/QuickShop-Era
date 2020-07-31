@@ -15,19 +15,18 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.crossplatform.type.sender;
+package org.maxgamer.quickshop.crossplatform.type.potion;
 
 import org.jetbrains.annotations.NotNull;
 import org.maxgamer.quickshop.crossplatform.CrossPlatformObject;
 import org.maxgamer.quickshop.crossplatform.type.CrossPlatform;
 
-public abstract class CrossPlatformCommandSender extends CrossPlatformObject implements CrossPlatform {
-    public CrossPlatformCommandSender(Object platformObject) {
+public abstract class CrossPlatformPotionType extends CrossPlatformObject implements CrossPlatform {
+
+    public CrossPlatformPotionType(Object platformObject) {
         super(platformObject);
     }
 
     @NotNull
     public abstract String getName();
-
-    public abstract boolean hasPermission(@NotNull String permissionNode);
 }

@@ -15,7 +15,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.util.error.usererror;
+package org.maxgamer.quickshop.bukkit.error.usererror;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

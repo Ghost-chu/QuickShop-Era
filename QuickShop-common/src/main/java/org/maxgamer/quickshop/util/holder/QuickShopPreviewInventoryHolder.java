@@ -17,16 +17,12 @@
 
 package org.maxgamer.quickshop.util.holder;
 
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
-import org.jetbrains.annotations.NotNull;
-
-public class QuickShopPreviewInventoryHolder implements InventoryHolder {
+public interface QuickShopPreviewInventoryHolder {
     //private final UUID random = UUID.randomUUID(); //To let java know this is different with InventoryHolder (regular) in some stupid JDK/JRE
-    @Override
-    public @NotNull Inventory getInventory() {
-        return null;
-    }
+//    @Override
+//    public @NotNull Inventory getInventory() {
+//        return null;
+//    }
 
 
 }

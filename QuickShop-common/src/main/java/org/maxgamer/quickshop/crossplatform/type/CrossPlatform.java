@@ -15,19 +15,10 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.crossplatform.type.sender;
+package org.maxgamer.quickshop.crossplatform.type;
 
-import org.jetbrains.annotations.NotNull;
-import org.maxgamer.quickshop.crossplatform.CrossPlatformObject;
-import org.maxgamer.quickshop.crossplatform.type.CrossPlatform;
+public interface CrossPlatform {
+    Object get();
 
-public abstract class CrossPlatformCommandSender extends CrossPlatformObject implements CrossPlatform {
-    public CrossPlatformCommandSender(Object platformObject) {
-        super(platformObject);
-    }
-
-    @NotNull
-    public abstract String getName();
-
-    public abstract boolean hasPermission(@NotNull String permissionNode);
+    void set();
 }

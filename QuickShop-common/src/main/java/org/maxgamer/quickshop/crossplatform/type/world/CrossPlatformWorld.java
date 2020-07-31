@@ -18,9 +18,9 @@
 package org.maxgamer.quickshop.crossplatform.type.world;
 
 import org.jetbrains.annotations.NotNull;
-import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
+import org.maxgamer.quickshop.crossplatform.type.CrossPlatform;
 
-public abstract class CrossPlatformWorld implements CrossPlatformUniversal {
+public abstract class CrossPlatformWorld implements CrossPlatform {
     @NotNull
     public abstract String getName();
 }

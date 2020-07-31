@@ -18,9 +18,12 @@
 package org.maxgamer.quickshop.crossplatform.type.item;
 
 import org.maxgamer.quickshop.crossplatform.CrossPlatformCloneable;
-import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
+import org.maxgamer.quickshop.crossplatform.CrossPlatformObject;
 
-public abstract class CrossPlatformItemStack implements CrossPlatformUniversal, CrossPlatformCloneable {
+public abstract class CrossPlatformItemStack extends CrossPlatformObject implements CrossPlatformCloneable {
 
 
+    public CrossPlatformItemStack(Object platformObject) {
+        super(platformObject);
+    }
 }

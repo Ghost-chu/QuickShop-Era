@@ -20,4 +20,7 @@ package org.maxgamer.quickshop.crossplatform.type.entity;
 import org.maxgamer.quickshop.crossplatform.type.sender.CrossPlatformCommandSender;
 
 public abstract class CrossPlatformEntity extends CrossPlatformCommandSender {
+    public CrossPlatformEntity(Object platformObject) {
+        super(platformObject);
+    }
 }

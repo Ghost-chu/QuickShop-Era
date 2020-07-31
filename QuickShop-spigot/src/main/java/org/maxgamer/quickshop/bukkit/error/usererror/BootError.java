@@ -15,12 +15,13 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.util.error.usererror;
+package org.maxgamer.quickshop.bukkit.error.usererror;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
+import org.maxgamer.quickshop.crossplatform.type.sender.CrossPlatformCommandSender;
 import org.maxgamer.quickshop.util.MsgUtil;
 
 import java.util.Arrays;
@@ -49,7 +50,7 @@ public class BootError {
      *
      * @param sender The sender you want output the errors.
      */
-    public void printErrors(Cross sender) {
+    public void printErrors(CrossPlatformCommandSender sender) {
         MsgUtil.sendMessage(sender, ChatColor.RED + "#####################################################");
         MsgUtil.sendMessage(sender, ChatColor.RED + " QuickShop is disabled, Please fix any errors and restart");
         for (String issue : errors) {

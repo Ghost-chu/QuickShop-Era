@@ -15,12 +15,11 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.util.
-        ;
+package org.maxgamer.quickshop.util.compatibility;
 
 import org.jetbrains.annotations.NotNull;
 import org.maxgamer.quickshop.crossplatform.type.entity.CrossPlatformPlayer;
-import org.maxgamer.quickshop.util.compatibility.CompatibilityModule;
+import org.maxgamer.quickshop.util.Util;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -17,26 +17,22 @@
 
 package org.maxgamer.quickshop.util.language.game;
 
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
+import org.maxgamer.quickshop.crossplatform.type.item.CrossPlatformItemStack;
+import org.maxgamer.quickshop.crossplatform.type.material.CrossPlatformMaterial;
 
 public interface GameLanguage {
     @NotNull String getName();
 
-    @NotNull Plugin getPlugin();
+    @NotNull String getPluginName();
 
-    @NotNull String getItem(@NotNull ItemStack itemStack);
+    @NotNull String getItem(@NotNull CrossPlatformItemStack itemStack);
 
-    @NotNull String getItem(@NotNull Material material);
+    @NotNull String getItem(@NotNull CrossPlatformMaterial material);
 
-    @NotNull String getPotion(@NotNull PotionEffectType potionEffectType);
+    @NotNull String getPotion(@NotNull CrossPlatformPotionEffectType potionEffectType);
 
-    @NotNull String getEnchantment(@NotNull Enchantment enchantment);
+    @NotNull String getEnchantment(@NotNull CrossPlatformEnchantment enchantment);
 
-    @NotNull String getEntity(@NotNull EntityType entityType);
+    @NotNull String getEntity(@NotNull CrossPlatformEntityType entityType);
 }
