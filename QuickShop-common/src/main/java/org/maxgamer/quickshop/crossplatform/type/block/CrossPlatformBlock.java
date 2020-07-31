@@ -17,8 +17,11 @@
 
 package org.maxgamer.quickshop.crossplatform.type.block;
 
+import org.jetbrains.annotations.NotNull;
 import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
+import org.maxgamer.quickshop.crossplatform.type.material.CrossPlatformMaterial;
 
 public abstract class CrossPlatformBlock implements CrossPlatformUniversal {
-
+    @NotNull
+    public abstract CrossPlatformMaterial getType();
 }

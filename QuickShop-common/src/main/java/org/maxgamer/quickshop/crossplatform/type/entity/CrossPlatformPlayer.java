@@ -23,8 +23,8 @@ import java.util.UUID;
 
 public abstract class CrossPlatformPlayer extends CrossPlatformEntity {
     @NotNull
-    abstract UUID getUniqueId();
+    public abstract UUID getUniqueId();
 
     @NotNull
-    abstract String getName();
+    public abstract String getName();
 }

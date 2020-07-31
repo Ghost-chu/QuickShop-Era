@@ -50,7 +50,9 @@ import org.maxgamer.quickshop.bukkit.util.bukkit.item.BukkitItemMatcherImpl;
 import org.maxgamer.quickshop.bukkit.util.bukkit.item.QuickShopItemMatcherImpl;
 import org.maxgamer.quickshop.command.CommandManager;
 import org.maxgamer.quickshop.database.*;
-import org.maxgamer.quickshop.economy.*;
+import org.maxgamer.quickshop.economy.Economy;
+import org.maxgamer.quickshop.economy.EconomyCore;
+import org.maxgamer.quickshop.economy.EconomyType;
 import org.maxgamer.quickshop.permission.PermissionChecker;
 import org.maxgamer.quickshop.permission.PermissionManager;
 import org.maxgamer.quickshop.shop.*;
@@ -201,7 +203,7 @@ public class QuickShop extends JavaPlugin {
      * Rewrited shoploader, more faster.
      */
     @Getter
-    private ShopLoader shopLoader;
+    private ShopLoaderBukkit shopLoader;
     /**
      * The Shop Manager used to store shops
      */
@@ -690,7 +692,7 @@ public class QuickShop extends JavaPlugin {
         }
 
         /* Load all shops. */
-        shopLoader = new ShopLoader(this);
+        shopLoader = new ShopLoaderBukkit(this);
         shopLoader.loadShops();
 
         getLogger().info("Registering Listeners...");

@@ -22,5 +22,5 @@ import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
 
 public abstract class CrossPlatformWorld implements CrossPlatformUniversal {
     @NotNull
-    abstract String getName();
+    public abstract String getName();
 }

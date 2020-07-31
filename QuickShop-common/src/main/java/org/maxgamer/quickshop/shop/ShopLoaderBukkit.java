@@ -19,24 +19,23 @@ package org.maxgamer.quickshop.shop;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.sk89q.worldedit.world.World;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.maxgamer.quickshop.QuickShop;
-import org.maxgamer.quickshop.crossplatform.type.location.CrossPlatformLocation;
 import org.maxgamer.quickshop.util.Util;
-import org.maxgamer.quickshop.util.logger.LoggerUtil;
 import org.maxgamer.quickshop.util.misc.JsonUtil;
-import org.maxgamer.quickshop.util.time.Timer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
@@ -44,10 +43,10 @@ import java.util.logging.Logger;
 /**
  * A class allow plugin load shops fast and simply.
  */
-public abstract class ShopLoader {
+public class ShopLoaderBukkit {
     private final List<Long> loadTimes = new ArrayList<>();
 
-    private final Map<Timer, Double> costCache = new HashMap<>();
+    private final Map<java.util.Timer, Double> costCache = new HashMap<>();
 
     private final QuickShop plugin;
     /* This may contains broken shop, must use null check before load it. */
@@ -57,7 +56,6 @@ public abstract class ShopLoader {
     private int loadAfterChunkLoaded = 0;
     private int loadAfterWorldLoaded = 0;
     private int totalLoaded = 0;
-    private final Logger logger = LoggerUtil.getLogger();
     //private final WarningSender warningSender;
 
     /**
@@ -65,7 +63,7 @@ public abstract class ShopLoader {
      *
      * @param plugin Plugin main class
      */
-    public ShopLoader(@NotNull QuickShop plugin) {
+    public ShopLoaderBukkit(@NotNull QuickShop plugin) {
         this.plugin = plugin;
         //this.warningSender = new WarningSender(plugin, 15000);
     }
@@ -81,16 +79,17 @@ public abstract class ShopLoader {
      */
     public void loadShops(@Nullable String worldName) {
         boolean backupedDatabaseInDeleteProcess = false;
-        Timer totalLoadTimer = new Timer(true);
+        java.util.Timer totalLoadTimer = new java.util.Timer(true);
         try {
-            logger.info("Loading shops from the database...");
-            Timer fetchTimer = new Timer(true);
+            this.plugin.getLogger().info("Loading shops from the database...");
+            java.util.Timer fetchTimer = new java.util.Timer(true);
 
             ResultSet rs = plugin.getDatabaseHelper().selectAllShops();
-            logger
+            this.plugin
+                    .getLogger()
                     .info("Used " + fetchTimer.endTimer() + "ms to fetch all shops from the database.");
             while (rs.next()) {
-                Timer singleShopLoadTimer = new Timer(true);
+                java.util.Timer singleShopLoadTimer = new java.util.Timer(true);
                 ShopDatabaseInfoOrigin origin = new ShopDatabaseInfoOrigin(rs);
                 originShopsInDatabase.add(origin);
                 if (worldName != null && !origin.getWorld().equals(worldName)) {
@@ -146,41 +145,29 @@ public abstract class ShopLoader {
             }
             long totalUsedTime = totalLoadTimer.endTimer();
             long avgPerShop = mean(loadTimes.toArray(new Long[0]));
-            printSuccessMetrics(totalLoaded, totalUsedTime, avgPerShop);
-            printLoadMetrics(this.loadAfterChunkLoaded, this.loadAfterWorldLoaded, 0);
+            this.plugin
+                    .getLogger()
+                    .info(
+                            "Successfully loaded "
+                                    + totalLoaded
+                                    + " shops! (Used "
+                                    + totalUsedTime
+                                    + "ms, Avg "
+                                    + avgPerShop
+                                    + "ms per shop)");
+            this.plugin
+                    .getLogger()
+                    .info(
+                            this.loadAfterChunkLoaded
+                                    + " shops will load after chunk have loaded, "
+                                    + this.loadAfterWorldLoaded
+                                    + " shops will load after the world has loaded.");
         } catch (Exception e) {
             exceptionHandler(e, null);
         }
     }
 
-    private void printLoadMetrics(int loadAfterChunkLoaded, int loadAfterWorldLoaded, int loadFailedShops) {
-        if (loadFailedShops == 0) {
-            logger.info(loadAfterChunkLoaded
-                    + " shops will load after chunk have loaded, "
-                    + loadAfterWorldLoaded
-                    + " shops will load after the world has loaded.");
-        } else {
-            logger.warning(loadAfterChunkLoaded
-                    + " shops will load after chunk have loaded, "
-                    + loadAfterWorldLoaded
-                    + " shops will load after the world has loaded, "
-                    + " shops load fails.");
-        }
-    }
-
-    private void printSuccessMetrics(int totalLoaded, long totalUsedTime, long avgPerShop) {
-        logger
-                .info(
-                        "Successfully loaded "
-                                + totalLoaded
-                                + " shops! (Used "
-                                + totalUsedTime
-                                + "ms, Avg "
-                                + avgPerShop
-                                + "ms per shop)");
-    }
-
-    private void singleShopLoaded(@NotNull Timer singleShopLoadTimer) {
+    private void singleShopLoaded(@NotNull java.util.Timer singleShopLoadTimer) {
         totalLoaded++;
         long singleShopLoadTime = singleShopLoadTimer.endTimer();
         loadTimes.add(singleShopLoadTime);
@@ -238,8 +225,9 @@ public abstract class ShopLoader {
         return sum / m.length;
     }
 
-    private void exceptionHandler(@NotNull Exception ex, @Nullable CrossPlatformLocation shopLocation) {
+    private void exceptionHandler(@NotNull Exception ex, @Nullable Location shopLocation) {
         errors++;
+        Logger logger = plugin.getLogger();
         logger.warning("##########FAILED TO LOAD SHOP##########");
         logger.warning("  >> Error Info:");
         String err = ex.getMessage();
@@ -252,7 +240,7 @@ public abstract class ShopLoader {
         logger.warning("  >> Target Location Info");
         logger.warning("Location: " + ((shopLocation == null) ? "NULL" : shopLocation.toString()));
         logger.warning(
-                "Block: " + ((shopLocation == null) ? "NULL" : shopLocation.getBlock().getType().getName()));
+                "Block: " + ((shopLocation == null) ? "NULL" : shopLocation.getBlock().getType().name()));
         logger.warning("  >> Database Info");
         try {
             logger.warning("Connected: " + plugin.getDatabase().getConnection().isClosed());
@@ -280,9 +268,9 @@ public abstract class ShopLoader {
     }
 
     public synchronized void recoverFromFile(@NotNull String fileContent) {
-        logger.info("Processing the shop data...");
+        plugin.getLogger().info("Processing the shop data...");
         String[] shopsPlain = fileContent.split("\n");
-        logger.info("Recovering shops...");
+        plugin.getLogger().info("Recovering shops...");
         Gson gson = JsonUtil.getGson();
         int total = shopsPlain.length;
         for (int i = 0; i < total; i++) {
@@ -315,7 +303,7 @@ public abstract class ShopLoader {
                 success = true;
             } catch (JsonSyntaxException ignore) {
             }
-            logger.info("Processed " + i + "/" + total + " - [" + success + "]");
+            plugin.getLogger().info("Processed " + i + "/" + total + " - [" + success + "]");
         }
     }
 
