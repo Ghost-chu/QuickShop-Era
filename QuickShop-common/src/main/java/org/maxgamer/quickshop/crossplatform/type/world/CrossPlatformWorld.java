@@ -17,5 +17,9 @@
 
 package org.maxgamer.quickshop.crossplatform.type.world;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface CrossPlatformWorld {
+    @NotNull
+    String getName();
 }

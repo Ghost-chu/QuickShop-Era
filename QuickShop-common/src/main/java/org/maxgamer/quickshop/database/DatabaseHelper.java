@@ -20,9 +20,11 @@ package org.maxgamer.quickshop.database;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.maxgamer.quickshop.QuickShop;
-import org.maxgamer.quickshop.bukkit.util.bukkit.item.ItemStack;
+import org.maxgamer.quickshop.crossplatform.type.item.CrossPlatformItemStack;
+import org.maxgamer.quickshop.crossplatform.type.location.CrossPlatformLocation;
 import org.maxgamer.quickshop.shop.Shop;
 import org.maxgamer.quickshop.shop.ShopModerator;
+import org.maxgamer.quickshop.util.Util;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,6 +32,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.UUID;
 import java.util.function.Consumer;
+
+k;
 
 /**
  * A Util to execute all SQLs.
@@ -170,7 +174,7 @@ public abstract class DatabaseHelper {
         manager.add(new DatabaseTask(sqlString, new DatabaseTask.Task() {
             @Override
             public void edit(PreparedStatement ps) throws SQLException {
-                Location location = shop.getLocation();
+                CrossPlatformLocation location = shop.getLocation();
                 //plugin.getDB().execute(q, owner, price, Util.serialize(item), x, y, z, world, unlimited, shopType);
                 ps.setString(1, ShopModerator.serialize(shop.getModerator()));
                 ps.setDouble(2, shop.getPrice());
@@ -214,7 +218,7 @@ public abstract class DatabaseHelper {
                 + "shops WHERE x = ? AND y = ? AND z = ? AND world = ?"
                 + (db.getCore() instanceof MySQLCore ? " LIMIT 1" : "");
         manager.add(new DatabaseTask(sqlString, (ps) -> {
-            Location location = shop.getLocation();
+            CrossPlatformLocation location = shop.getLocation();
             ps.setInt(1, location.getBlockX());
             ps.setInt(2, location.getBlockY());
             ps.setInt(3, location.getBlockZ());
@@ -266,7 +270,7 @@ public abstract class DatabaseHelper {
                 }));
     }
 
-    public void updateShop(@NotNull String owner, @NotNull ItemStack item, int unlimited, int shopType,
+    public void updateShop(@NotNull String owner, @NotNull CrossPlatformItemStack item, int unlimited, int shopType,
                            double price, int x, int y, int z, String world, String extra) {
         String sqlString = "UPDATE " + plugin
                 .getDbPrefix() + "shops SET owner = ?, itemConfig = ?, unlimited = ?, type = ?, price = ?, extra = ? WHERE x = ? AND y = ? and z = ? and world = ?";
