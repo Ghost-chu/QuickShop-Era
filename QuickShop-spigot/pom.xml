@@ -79,5 +79,13 @@
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+        </dependency>
     </dependencies>
 </project>
