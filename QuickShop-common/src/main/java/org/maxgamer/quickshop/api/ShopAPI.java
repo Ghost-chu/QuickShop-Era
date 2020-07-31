@@ -18,12 +18,12 @@
 package org.maxgamer.quickshop.api;
 
 import lombok.AllArgsConstructor;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.maxgamer.quickshop.QuickShop;
+import org.maxgamer.quickshop.crossplatform.type.chunk.CrossPlatformChunk;
+import org.maxgamer.quickshop.crossplatform.type.location.CrossPlatformLocation;
+import org.maxgamer.quickshop.crossplatform.type.world.CrossPlatformWorld;
 import org.maxgamer.quickshop.shop.Shop;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class ShopAPI {
      * @param location The location
      * @return The shop in that location, may be null
      */
-    public @Nullable Shop getShop(@NotNull Location location) {
+    public @Nullable Shop getShop(@NotNull CrossPlatformLocation location) {
         return plugin.getShopManager().getShop(location, false);
     }
 
@@ -51,7 +51,7 @@ public class ShopAPI {
      * @param location The location
      * @return The shop in that location, may be null
      */
-    public @Nullable Shop getShopWithCaching(@NotNull Location location) {
+    public @Nullable Shop getShopWithCaching(@NotNull CrossPlatformLocation location) {
         if (plugin.getShopCache() == null) {
             return getShop(location);
         }
@@ -64,7 +64,7 @@ public class ShopAPI {
      * @param chunk The chunk
      * @return The shops in chunk, may be null
      */
-    public @Nullable Map<Location, Shop> getShop(@NotNull Chunk chunk) {
+    public @Nullable Map<CrossPlatformLocation, Shop> getShop(@NotNull CrossPlatformChunk chunk) {
         return plugin.getShopManager().getShops(chunk);
     }
 
@@ -74,7 +74,7 @@ public class ShopAPI {
      * @param location The location
      * @return The shop in that location, may be null
      */
-    public @Nullable Shop getShopIncludeAttached(@NotNull Location location) {
+    public @Nullable Shop getShopIncludeAttached(@NotNull CrossPlatformLocation location) {
         return plugin.getShopManager().getShopIncludeAttached(location);
     }
 
@@ -84,7 +84,7 @@ public class ShopAPI {
      * @param location The location
      * @return The shop in that location, may be null
      */
-    public @Nullable Shop getShopIncludeAttachedWithCaching(@NotNull Location location) {
+    public @Nullable Shop getShopIncludeAttachedWithCaching(@NotNull CrossPlatformLocation location) {
         if (plugin.getShopCache() == null) {
             return getShopIncludeAttached(location);
         }
@@ -128,7 +128,7 @@ public class ShopAPI {
      * @param world The world that you want get shops
      * @return The list of all shops in world
      */
-    public @NotNull List<Shop> getShopsInWorld(@NotNull World world) {
+    public @NotNull List<Shop> getShopsInWorld(@NotNull CrossPlatformWorld world) {
         return new ArrayList<>(plugin.getShopManager().getShopsInWorld(world));
     }
 
