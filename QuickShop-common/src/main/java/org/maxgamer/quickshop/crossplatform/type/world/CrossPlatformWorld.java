@@ -15,25 +15,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.crossplatform.type.location;
+package org.maxgamer.quickshop.crossplatform.type.world;
 
-import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
-import org.maxgamer.quickshop.crossplatform.type.world.CrossPlatformWorld;
-
-public interface CrossPlatformLocation extends CrossPlatformUniversal {
-    double getX();
-
-    double getY();
-
-    double getZ();
-
-    int getBlockX();
-
-    int getBlockY();
-
-    int getBlockZ();
-
-    CrossPlatformLocation getBlock();
-
-    CrossPlatformWorld getWorld();
+public interface CrossPlatformWorld {
 }

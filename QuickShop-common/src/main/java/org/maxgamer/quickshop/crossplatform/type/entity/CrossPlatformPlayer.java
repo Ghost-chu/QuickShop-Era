@@ -15,25 +15,16 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.crossplatform.type.location;
+package org.maxgamer.quickshop.crossplatform.type.entity;
 
-import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
-import org.maxgamer.quickshop.crossplatform.type.world.CrossPlatformWorld;
+import org.jetbrains.annotations.NotNull;
 
-public interface CrossPlatformLocation extends CrossPlatformUniversal {
-    double getX();
+import java.util.UUID;
 
-    double getY();
+public interface CrossPlatformPlayer extends CrossPlatformEntity {
+    @NotNull
+    UUID getUniqueId();
 
-    double getZ();
-
-    int getBlockX();
-
-    int getBlockY();
-
-    int getBlockZ();
-
-    CrossPlatformLocation getBlock();
-
-    CrossPlatformWorld getWorld();
+    @NotNull
+    String getName();
 }

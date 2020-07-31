@@ -17,14 +17,12 @@
 
 package org.maxgamer.quickshop.shop;
 
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.maxgamer.quickshop.crossplatform.type.block.CrossPlatformBlock;
+import org.maxgamer.quickshop.crossplatform.type.entity.CrossPlatformPlayer;
+import org.maxgamer.quickshop.crossplatform.type.item.CrossPlatformItemStack;
+import org.maxgamer.quickshop.crossplatform.type.location.CrossPlatformLocation;
 
 import java.util.List;
 import java.util.Map;
@@ -37,7 +35,7 @@ public interface Shop {
      * @param paramItemStack The ItemStack you want add
      * @param paramInt       How many you want add
      */
-    void add(ItemStack paramItemStack, int paramInt);
+    void add(CrossPlatformItemStack paramItemStack, int paramInt);
 
     /**
      * Add new staff to the moderators
@@ -53,7 +51,7 @@ public interface Shop {
      * @param paramPlayer Target player
      * @param paramInt    How many buyed?
      */
-    void buy(Player paramPlayer, int paramInt);
+    void buy(CrossPlatformPlayer paramPlayer, int paramInt);
 
     /**
      * Check the display location, and teleport, respawn if needs.
@@ -93,13 +91,13 @@ public interface Shop {
      */
     void delete(boolean memoryOnly);
 
-    /**
-     * Check shop is or not attacked the target block
-     *
-     * @param paramBlock Target block
-     * @return isAttached
-     */
-    boolean isAttached(Block paramBlock);
+//    /**
+//     * Check shop is or not attacked the target block
+//     *
+//     * @param paramBlock Target block
+//     * @return isAttached
+//     */
+//    boolean isAttached(CrossPla paramBlock);
 
     /**
      * Check the target ItemStack is matches with this shop's item.
@@ -107,7 +105,7 @@ public interface Shop {
      * @param paramItemStack Target ItemStack.
      * @return Matches
      */
-    boolean matches(ItemStack paramItemStack);
+    boolean matches(CrossPlatformItemStack paramItemStack);
 
     /**
      * Execute codes when player click the shop will did things
@@ -147,7 +145,7 @@ public interface Shop {
      * @param paramItemStack Want removed ItemStack
      * @param paramInt       Want remove how many
      */
-    void remove(ItemStack paramItemStack, int paramInt);
+    void remove(CrossPlatformItemStack paramItemStack, int paramInt);
 
     /**
      * Execute sell action for player with x items.
@@ -155,7 +153,7 @@ public interface Shop {
      * @param paramPlayer Target player
      * @param paramInt    How many sold?
      */
-    void sell(Player paramPlayer, int paramInt);
+    void sell(CrossPlatformPlayer paramPlayer, int paramInt);
 
     /**
      * Generate new sign texts on shop's sign.
@@ -180,14 +178,14 @@ public interface Shop {
      * @return The shop's ItemStack
      */
     @NotNull
-    ItemStack getItem();
+    CrossPlatformItemStack getItem();
 
     /**
      * Set shop item's ItemStack
      *
      * @param item ItemStack to set
      */
-    void setItem(@NotNull ItemStack item);
+    void setItem(@NotNull CrossPlatformItemStack item);
 
     /**
      * Refresh shop sign and display item
@@ -207,7 +205,7 @@ public interface Shop {
      * @return Shop's location
      */
     @NotNull
-    Location getLocation();
+    CrossPlatformLocation getLocation();
 
     /**
      * Return this shop's moderators
@@ -222,7 +220,7 @@ public interface Shop {
      *
      * @param shopModerator New moderators team you want set
      */
-    void setModerator(ShopModerator shopModerator);
+    void setModerator(@NotNull ShopModerator shopModerator);
 
     /**
      * Get shop's owner UUID
@@ -288,7 +286,7 @@ public interface Shop {
      * @return Signs for the shop
      */
     @NotNull
-    List<Sign> getSigns();
+    List<CrossPlatformBlock> getSigns();
 
     /**
      * Directly get all staffs.
@@ -375,19 +373,19 @@ public interface Shop {
      * It is spilt by plugin name, different name have different map, the data won't conflict.
      * But if you plugin name is too common, add a prefix will be a good idea.
      *
-     * @param plugin Plugin instance
+     * @param pluginName Plugin name
      * @return The data table
      */
     @NotNull
-    Map<String, String> getExtra(@NotNull Plugin plugin);
+    Map<String, String> getExtra(@NotNull String pluginName);
 
     /**
      * Save the extra data to the shop.
      *
-     * @param plugin Plugin instace
-     * @param data   The data table
+     * @param pluginName Plugin name
+     * @param data       The data table
      */
-    void setExtra(@NotNull Plugin plugin, Map<String, String> data);
+    void setExtra(@NotNull String pluginName, Map<String, String> data);
 
     /**
      * Gets shop status is stacking shop
