@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 public enum MatcherWorkMode {
     QSMATCHER(0),
-    BUKKITMATCHER(1),
+    PLATFORMMATCHER(1),
     JAVAMATCHER(2);
 
     private final int id;
