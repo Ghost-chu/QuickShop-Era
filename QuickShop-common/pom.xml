@@ -80,5 +80,9 @@
             <groupId>io.sentry</groupId>
             <artifactId>sentry</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cc.bukkit</groupId>
+            <artifactId>BukkitConfiguration</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -87,5 +87,9 @@
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cc.bukkit</groupId>
+            <artifactId>BukkitConfiguration</artifactId>
+        </dependency>
     </dependencies>
 </project>

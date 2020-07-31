@@ -89,6 +89,10 @@
             <url>https://maven.enginehub.org/repo/</url>
             <id>EngineHub</id>
         </repository>
+        <repository>
+            <id>quickshop-repo</id>
+            <url>https://repo.codemc.io/</url>
+        </repository>
     </repositories>
 
     <modules>
@@ -144,6 +148,12 @@
                 <artifactId>sentry</artifactId>
                 <version>1.7.30</version>
                 <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>cc.bukkit</groupId>
+                <artifactId>BukkitConfiguration</artifactId>
+                <version>1.16.1-R0.1-SNAPSHOT</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
