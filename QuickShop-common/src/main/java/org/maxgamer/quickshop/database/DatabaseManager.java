@@ -17,21 +17,21 @@
 
 package org.maxgamer.quickshop.database;
 
-import org.bukkit.plugin.IllegalPluginAccessException;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.maxgamer.quickshop.QuickShop;
 import org.maxgamer.quickshop.util.Util;
+import org.maxgamer.quickshop.util.logger.LoggerUtil;
 import org.maxgamer.quickshop.util.text.WarningSender;
 import org.maxgamer.quickshop.util.time.Timer;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Queue;
+import java.util.TimerTask;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Queued database manager. Use queue to solve run SQL make server lagg issue.
@@ -49,8 +49,9 @@ public class DatabaseManager {
     @NotNull
     private final WarningSender warningSender;
     private final boolean useQueue;
+    private final Logger logger = LoggerUtil.getLogger();
     @Nullable
-    private BukkitTask task;
+    private java.util.Timer task;
 
     /**
      * Queued database manager. Use queue to solve run SQL make server lagg issue.
@@ -58,27 +59,22 @@ public class DatabaseManager {
      * @param plugin plugin main class
      * @param db     database
      */
-    public DatabaseManager(@NotNull QuickShop plugin, @NotNull Database db) {
+    public DatabaseManager(@NotNull QuickShop plugin, @NotNull Database db, boolean useQueue, int commitInterval) {
         this.plugin = plugin;
         this.warningSender = new WarningSender(plugin, 600000);
         this.database = db;
-        this.useQueue = plugin.getConfig().getBoolean("database.queue");
+        this.useQueue = useQueue;
 
         if (!useQueue) {
             return;
         }
-        try {
-            task =
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            plugin.getDatabaseManager().runTask();
-                        }
-                    }.runTaskTimerAsynchronously(plugin, 1, plugin.getConfig().getLong("database.queue-commit-interval") * 20);
-        } catch (IllegalPluginAccessException e) {
-            Util.debugLog("Plugin is disabled but trying create database task, move to Main Thread...");
-            plugin.getDatabaseManager().runTask();
-        }
+        task = new java.util.Timer("QuickShop-DatabaseManager-Task");
+        task.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                plugin.getDatabaseManager().runTask();
+            }
+        }, 0, commitInterval * 1000);
     }
 
     /**
@@ -128,9 +124,7 @@ public class DatabaseManager {
             connection.close();
         } catch (SQLException sqle) {
             plugin.getSentryErrorReporter().ignoreThrow();
-            this.plugin
-                    .getLogger()
-                    .log(Level.WARNING, "Database connection may lost, we are trying reconnecting, if this message appear too many times, you should check your database file(sqlite) and internet connection(mysql).", sqle);
+            logger.log(Level.WARNING, "Database connection may lost, we are trying reconnecting, if this message appear too many times, you should check your database file(sqlite) and internet connection(mysql).", sqle);
         }
 
 //        try {
@@ -160,10 +154,10 @@ public class DatabaseManager {
      * Unload the DatabaseManager, run at onDisable()
      */
     public void unInit() {
-        if (task != null && !task.isCancelled()) {
+        logger.info("Please wait for the data to flush its data...");
+        if (task != null) {
             task.cancel();
         }
-        plugin.getLogger().info("Please wait for the data to flush its data...");
         runTask();
     }
 
