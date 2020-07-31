@@ -19,11 +19,11 @@ package org.maxgamer.quickshop.shop;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.maxgamer.quickshop.crossplatform.type.block.CrossPlatformBlock;
+import org.maxgamer.quickshop.crossplatform.type.item.CrossPlatformItemStack;
+import org.maxgamer.quickshop.crossplatform.type.location.CrossPlatformLocation;
 
 /**
  * A class contains shop's infomations
@@ -31,38 +31,38 @@ import org.jetbrains.annotations.Nullable;
 @EqualsAndHashCode
 @ToString
 public class Info {
-    private final Block last;
-    private final Location loc;
+    private final CrossPlatformBlock last;
+    private final CrossPlatformLocation loc;
     private final long lastChangedAt;
     private ShopAction action;
-    private ItemStack item;
+    private CrossPlatformItemStack item;
     private Shop shop;
 
     public Info(
-            @NotNull Location loc,
+            @NotNull CrossPlatformLocation loc,
             @NotNull ShopAction action,
-            @Nullable ItemStack item,
-            @Nullable Block last) {
+            @Nullable CrossPlatformItemStack item,
+            @Nullable CrossPlatformBlock last) {
         this.loc = loc;
         this.action = action;
         this.last = last;
         if (item != null) {
-            this.item = item.clone();
+            this.item = (CrossPlatformItemStack) item.crossPlatformClone();
         }
         this.lastChangedAt = System.currentTimeMillis();
     }
 
     public Info(
-            @NotNull Location loc,
+            @NotNull CrossPlatformLocation loc,
             @NotNull ShopAction action,
-            @Nullable ItemStack item,
-            @Nullable Block last,
+            @Nullable CrossPlatformItemStack item,
+            @Nullable CrossPlatformBlock last,
             @Nullable Shop shop) {
         this.loc = loc;
         this.action = action;
         this.last = last;
         if (item != null) {
-            this.item = item.clone();
+            this.item = (CrossPlatformItemStack) item.crossPlatformClone();
         }
         if (shop != null) {
             this.shop = shop.clone();
@@ -86,7 +86,7 @@ public class Info {
     /**
      * @return ItemStack iStack, Get Shop's selling/buying item's ItemStack.
      */
-    public @NotNull ItemStack getItem() {
+    public @NotNull CrossPlatformItemStack getItem() {
         return this.item;
     }
 
@@ -98,14 +98,14 @@ public class Info {
     /**
      * @return Location loc, Get shop's location,
      */
-    public @NotNull Location getLocation() {
+    public @NotNull CrossPlatformLocation getLocation() {
         return this.loc;
     }
 
     /**
      * @return Block signBlock, Get block of shop's sign, may return the null.
      */
-    public @Nullable Block getSignBlock() {
+    public @Nullable CrossPlatformBlock getSignBlock() {
         return this.last;
     }
 

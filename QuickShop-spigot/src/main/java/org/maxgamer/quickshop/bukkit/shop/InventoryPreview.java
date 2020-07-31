@@ -15,14 +15,14 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.shop;
+package org.maxgamer.quickshop.bukkit.shop;
 
 import com.google.common.collect.Lists;
+import com.sk89q.worldedit.entity.Player;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -43,7 +43,7 @@ import org.maxgamer.quickshop.util.holder.QuickShopPreviewInventoryHolder;
 public class InventoryPreview implements Listener {
 
     private final ItemStack itemStack;
-    private final Player player;
+    private final com.sk89q.worldedit.entity.Player player;
     @Nullable
     private Inventory inventory;
 

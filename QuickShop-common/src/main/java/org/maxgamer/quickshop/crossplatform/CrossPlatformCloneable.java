@@ -15,26 +15,11 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package org.maxgamer.quickshop.crossplatform.type.location;
+package org.maxgamer.quickshop.crossplatform;
 
-import org.maxgamer.quickshop.crossplatform.CrossPlatformCloneable;
-import org.maxgamer.quickshop.crossplatform.type.CrossPlatformUniversal;
-import org.maxgamer.quickshop.crossplatform.type.world.CrossPlatformWorld;
+import org.jetbrains.annotations.NotNull;
 
-public abstract class CrossPlatformLocation implements CrossPlatformUniversal, CrossPlatformCloneable {
-    abstract double getX();
-
-    abstract double getY();
-
-    abstract double getZ();
-
-    abstract int getBlockX();
-
-    abstract int getBlockY();
-
-    abstract int getBlockZ();
-
-    abstract CrossPlatformLocation getBlock();
-
-    abstract CrossPlatformWorld getWorld();
+public interface CrossPlatformCloneable {
+    @NotNull
+    CrossPlatformCloneable crossPlatformClone();
 }
