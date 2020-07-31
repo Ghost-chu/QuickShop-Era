@@ -21,8 +21,8 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
+import org.maxgamer.quickshop.crossplatform.type.world.CrossPlatformWorld;
 
 @Getter
 @EqualsAndHashCode
@@ -36,7 +36,7 @@ public class ShopChunk {
 
     private final int z;
 
-    public boolean isSame(@NotNull World world, int x, int z) {
+    public boolean isSame(@NotNull CrossPlatformWorld world, int x, int z) {
         return isSame(world.getName(), x, z);
     }
 

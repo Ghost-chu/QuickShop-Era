@@ -17,43 +17,91 @@
 
 package org.maxgamer.quickshop.shop;
 
-import com.google.common.collect.Lists;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.maxgamer.quickshop.QuickShop;
-import org.maxgamer.quickshop.util.Util;
-import org.maxgamer.quickshop.util.misc.JsonUtil;
+import org.maxgamer.quickshop.crossplatform.type.entity.CrossPlatformEntity;
+import org.maxgamer.quickshop.crossplatform.type.item.CrossPlatformItemStack;
+import org.maxgamer.quickshop.crossplatform.type.location.CrossPlatformLocation;
 
 /**
  * @author Netherfoam A display item, that spawns a block above the chest and cannot be interacted
  * with.
  */
-public abstract class DisplayItem {
+public interface DisplayItem {
 
-    protected static final QuickShop plugin = QuickShop.getInstance();
+//    protected static final QuickShop plugin = QuickShop.getInstance();
+//
+//    private static final Gson gson = JsonUtil.getGson();
+//
+//    protected final ItemStack originalItemStack;
+//
+//    protected final Shop shop;
+//
+//    @Nullable
+//    protected ItemStack guardedIstack;
+//
+//    private boolean pendingRemoval;
 
-    private static final Gson gson = JsonUtil.getGson();
+//    protected DisplayItem(Shop shop) {
+//        this.shop = shop;
+//        this.originalItemStack = shop.getItem().clone();
+//        //this.originalItemStack.setAmount(1);
+//    }
 
-    protected final ItemStack originalItemStack;
-
-    protected final Shop shop;
-
-    @Nullable
-    protected ItemStack guardedIstack;
-
-    private boolean pendingRemoval;
-
-    protected DisplayItem(Shop shop) {
-        this.shop = shop;
-        this.originalItemStack = shop.getItem().clone();
-        //this.originalItemStack.setAmount(1);
-    }
+//    /**
+//     * Check the itemStack is contains protect flag.
+//     *
+//     * @param itemStack Target ItemStack
+//     * @return Contains protect flag.
+//     */
+//    public static boolean checkIsGuardItemStack(@Nullable final ItemStack itemStack) {
+//
+//        if (!plugin.isDisplay()) {
+//            return false;
+//        }
+//        if (getNowUsing() == DisplayType.VIRTUALITEM) {
+//            return false;
+//        }
+//
+//        if (itemStack == null) {
+//            return false;
+//        }
+//        //    itemStack = itemStack.clone();
+//        //    itemStack.setAmount(1);
+//        if (!itemStack.hasItemMeta()) {
+//            return false;
+//        }
+//        ItemMeta iMeta = itemStack.getItemMeta();
+//        if (!iMeta.hasLore()) {
+//            return false;
+//        }
+//        String defaultMark = ShopProtectionFlag.getDefaultMark();
+//        //noinspection ConstantConditions
+//        for (String lore : iMeta.getLore()) {
+//            try {
+//                if (!lore.startsWith("{")) {
+//                    continue;
+//                }
+//                ShopProtectionFlag shopProtectionFlag = gson.fromJson(lore, ShopProtectionFlag.class);
+//                if (shopProtectionFlag == null) {
+//                    continue;
+//                }
+//                if (defaultMark.equals(ShopProtectionFlag.getMark())) {
+//                    return true;
+//                }
+//                if (shopProtectionFlag.getShopLocation() != null) {
+//                    return true;
+//                }
+//                if (shopProtectionFlag.getItemStackString() != null) {
+//                    return true;
+//                }
+//            } catch (JsonSyntaxException e) {
+//                // Ignore
+//            }
+//        }
+//
+//        return false;
+//    }
 
     /**
      * Check the itemStack is contains protect flag.
@@ -61,54 +109,7 @@ public abstract class DisplayItem {
      * @param itemStack Target ItemStack
      * @return Contains protect flag.
      */
-    public static boolean checkIsGuardItemStack(@Nullable final ItemStack itemStack) {
-
-        if (!plugin.isDisplay()) {
-            return false;
-        }
-        if (getNowUsing() == DisplayType.VIRTUALITEM) {
-            return false;
-        }
-
-        if (itemStack == null) {
-            return false;
-        }
-        //    itemStack = itemStack.clone();
-        //    itemStack.setAmount(1);
-        if (!itemStack.hasItemMeta()) {
-            return false;
-        }
-        ItemMeta iMeta = itemStack.getItemMeta();
-        if (!iMeta.hasLore()) {
-            return false;
-        }
-        String defaultMark = ShopProtectionFlag.getDefaultMark();
-        //noinspection ConstantConditions
-        for (String lore : iMeta.getLore()) {
-            try {
-                if (!lore.startsWith("{")) {
-                    continue;
-                }
-                ShopProtectionFlag shopProtectionFlag = gson.fromJson(lore, ShopProtectionFlag.class);
-                if (shopProtectionFlag == null) {
-                    continue;
-                }
-                if (defaultMark.equals(ShopProtectionFlag.getMark())) {
-                    return true;
-                }
-                if (shopProtectionFlag.getShopLocation() != null) {
-                    return true;
-                }
-                if (shopProtectionFlag.getItemStackString() != null) {
-                    return true;
-                }
-            } catch (JsonSyntaxException e) {
-                // Ignore
-            }
-        }
-
-        return false;
-    }
+    boolean checkIsGuardItemStack(@Nullable final CrossPlatformItemStack itemStack);
 
     /**
      * Check the itemStack is target shop's display
@@ -117,55 +118,67 @@ public abstract class DisplayItem {
      * @param shop      Target shop
      * @return Is target shop's display
      */
-    public static boolean checkIsTargetShopDisplay(@NotNull final ItemStack itemStack, @NotNull Shop shop) {
-        if (!plugin.isDisplay()) {
-            return false;
-        }
-        if (getNowUsing() == DisplayType.VIRTUALITEM) {
-            return false;
-        }
+    boolean checkIsTargetShopDisplay(@NotNull final CrossPlatformItemStack itemStack, @NotNull Shop shop);
 
-        if (!itemStack.hasItemMeta()) {
-            return false;
-        }
-        ItemMeta iMeta = itemStack.getItemMeta();
-        if (!iMeta.hasLore()) {
-            return false;
-        }
-        String defaultMark = ShopProtectionFlag.getDefaultMark();
-        String shopLocation = shop.getLocation().toString();
-        //noinspection ConstantConditions
-        for (String lore : iMeta.getLore()) {
-            try {
-                if (!lore.startsWith("{")) {
-                    continue;
-                }
-                ShopProtectionFlag shopProtectionFlag = gson.fromJson(lore, ShopProtectionFlag.class);
-                if (shopProtectionFlag == null) {
-                    continue;
-                }
-                if (!ShopProtectionFlag.getMark().equals(defaultMark)) {
-                    continue;
-                }
-                if (shopProtectionFlag.getShopLocation().equals(shopLocation)) {
-                    return true;
-                }
-            } catch (JsonSyntaxException e) {
-                // Ignore
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Get plugin now is using which one DisplayType
-     *
-     * @return Using displayType.
-     */
+    //
+//    /**
+//     * Check the itemStack is target shop's display
+//     *
+//     * @param itemStack Target ItemStack
+//     * @param shop      Target shop
+//     * @return Is target shop's display
+//     */
+//    public static boolean checkIsTargetShopDisplay(@NotNull final ItemStack itemStack, @NotNull Shop shop) {
+//        if (!plugin.isDisplay()) {
+//            return false;
+//        }
+//        if (getNowUsing() == DisplayType.VIRTUALITEM) {
+//            return false;
+//        }
+//
+//        if (!itemStack.hasItemMeta()) {
+//            return false;
+//        }
+//        ItemMeta iMeta = itemStack.getItemMeta();
+//        if (!iMeta.hasLore()) {
+//            return false;
+//        }
+//        String defaultMark = ShopProtectionFlag.getDefaultMark();
+//        String shopLocation = shop.getLocation().toString();
+//        //noinspection ConstantConditions
+//        for (String lore : iMeta.getLore()) {
+//            try {
+//                if (!lore.startsWith("{")) {
+//                    continue;
+//                }
+//                ShopProtectionFlag shopProtectionFlag = gson.fromJson(lore, ShopProtectionFlag.class);
+//                if (shopProtectionFlag == null) {
+//                    continue;
+//                }
+//                if (!ShopProtectionFlag.getMark().equals(defaultMark)) {
+//                    continue;
+//                }
+//                if (shopProtectionFlag.getShopLocation().equals(shopLocation)) {
+//                    return true;
+//                }
+//            } catch (JsonSyntaxException e) {
+//                // Ignore
+//            }
+//        }
+//        return false;
+//    }
     @NotNull
-    public static DisplayType getNowUsing() {
-        return DisplayType.fromID(plugin.getConfig().getInt("shop.display-type"));
-    }
+    DisplayType nowUsing();
+
+//    /**
+//     * Get plugin now is using which one DisplayType
+//     *
+//     * @return Using displayType.
+//     */
+//    @NotNull
+//    public static DisplayType getNowUsing() {
+//        return DisplayType.fromID(plugin.getConfig().getInt("shop.display-type"));
+//    }
 
     /**
      * Create a new itemStack with protect flag.
@@ -175,25 +188,35 @@ public abstract class DisplayItem {
      * @return New itemStack with protect flag.
      */
     @NotNull
-    public static ItemStack createGuardItemStack(@NotNull ItemStack itemStack, @NotNull Shop shop) {
-        itemStack = itemStack.clone();
-        //itemStack.setAmount(1);
-        ItemMeta iMeta = itemStack.getItemMeta();
-        if (plugin.getConfig().getBoolean("shop.display-item-use-name")) {
-            if (iMeta.hasDisplayName()) {
-                iMeta.setDisplayName(iMeta.getDisplayName());
-            } else {
-                iMeta.setDisplayName(Util.getItemStackName(itemStack));
-            }
-        } else {
-            iMeta.setDisplayName(null);
-        }
-        ShopProtectionFlag shopProtectionFlag = createShopProtectionFlag(itemStack, shop);
-        String protectFlag = gson.toJson(shopProtectionFlag);
-        iMeta.setLore(Lists.newArrayList(protectFlag));
-        itemStack.setItemMeta(iMeta);
-        return itemStack;
-    }
+    CrossPlatformItemStack createGuardItemStack(@NotNull CrossPlatformItemStack itemStack, @NotNull Shop shop);
+
+//    /**
+//     * Create a new itemStack with protect flag.
+//     *
+//     * @param itemStack Old itemStack
+//     * @param shop      The shop
+//     * @return New itemStack with protect flag.
+//     */
+//    @NotNull
+//    public static ItemStack createGuardItemStack(@NotNull ItemStack itemStack, @NotNull Shop shop) {
+//        itemStack = itemStack.clone();
+//        //itemStack.setAmount(1);
+//        ItemMeta iMeta = itemStack.getItemMeta();
+//        if (plugin.getConfig().getBoolean("shop.display-item-use-name")) {
+//            if (iMeta.hasDisplayName()) {
+//                iMeta.setDisplayName(iMeta.getDisplayName());
+//            } else {
+//                iMeta.setDisplayName(Util.getItemStackName(itemStack));
+//            }
+//        } else {
+//            iMeta.setDisplayName(null);
+//        }
+//        ShopProtectionFlag shopProtectionFlag = createShopProtectionFlag(itemStack, shop);
+//        String protectFlag = gson.toJson(shopProtectionFlag);
+//        iMeta.setLore(Lists.newArrayList(protectFlag));
+//        itemStack.setItemMeta(iMeta);
+//        return itemStack;
+//    }
 
     /**
      * Create the shop protection flag for display item.
@@ -203,34 +226,50 @@ public abstract class DisplayItem {
      * @return ShopProtectionFlag obj
      */
     @NotNull
-    public static ShopProtectionFlag createShopProtectionFlag(
-            @NotNull ItemStack itemStack, @NotNull Shop shop) {
-        return new ShopProtectionFlag(shop.getLocation().toString(), Util.serialize(itemStack));
-    }
+    ShopProtectionFlag createShopProtectionFlag(@NotNull CrossPlatformItemStack itemStack, @NotNull Shop shop);
+
+//    /**
+//     * Create the shop protection flag for display item.
+//     *
+//     * @param itemStack The item stack
+//     * @param shop      The shop
+//     * @return ShopProtectionFlag obj
+//     */
+//    @NotNull
+//    public static ShopProtectionFlag createShopProtectionFlag(
+//            @NotNull ItemStack itemStack, @NotNull Shop shop) {
+//        return new ShopProtectionFlag(shop.getLocation().toString(), Util.serialize(itemStack));
+//    }
 
     /**
      * Gets the original ItemStack (without protection mark, should same with shop trading item.
      *
      * @return ItemStack
      */
-    @NotNull
-    public ItemStack getOriginalItemStack() {
-        return originalItemStack;
-    }
+    @NotNull CrossPlatformItemStack getOriginalItemStack();
+//    /**
+//     * Gets the original ItemStack (without protection mark, should same with shop trading item.
+//     *
+//     * @return ItemStack
+//     */
+//    @NotNull
+//    public ItemStack getOriginalItemStack() {
+//        return originalItemStack;
+//    }
 
     /**
      * Check the display is or not moved.
      *
      * @return Moved
      */
-    public abstract boolean checkDisplayIsMoved();
+    boolean checkDisplayIsMoved();
 
     /**
      * Check the display is or not need respawn
      *
      * @return Need
      */
-    public abstract boolean checkDisplayNeedRegen();
+    boolean checkDisplayNeedRegen();
 
     /**
      * Check target Entity is or not a QuickShop display Entity.
@@ -238,34 +277,34 @@ public abstract class DisplayItem {
      * @param entity Target entity
      * @return Is or not
      */
-    public abstract boolean checkIsShopEntity(Entity entity);
+    boolean checkIsShopEntity(CrossPlatformItemStack entity);
 
     /**
      * Fix the display moved issue.
      */
-    public abstract void fixDisplayMoved();
+    void fixDisplayMoved();
 
     /**
      * Fix display need respawn issue.
      */
-    public abstract void fixDisplayNeedRegen();
+    void fixDisplayNeedRegen();
 
     /**
      * Remove the display entity.
      */
-    public abstract void remove();
+    void remove();
 
     /**
      * Remove this shop's display in the whole world.(Not whole server)
      *
      * @return Success
      */
-    public abstract boolean removeDupe();
+    boolean removeDupe();
 
     /**
      * Respawn the displays, if it not exist, it will spawn new one.
      */
-    public abstract void respawn();
+    void respawn();
 
     /**
      * Add the protect flags for entity or entity's hand item. Target entity will got protect by
@@ -273,46 +312,42 @@ public abstract class DisplayItem {
      *
      * @param entity Target entity
      */
-    public abstract void safeGuard(@NotNull Entity entity);
+    void safeGuard(@NotNull CrossPlatformEntity entity);
 
     /**
      * Spawn new Displays
      */
-    public abstract void spawn();
+    void spawn();
 
     /**
      * Get the display entity
      *
      * @return Target entity
      */
-    public abstract Entity getDisplay();
+    CrossPlatformEntity getDisplay();
 
     /**
      * Get display should at location. Not display current location.
      *
      * @return Should at
      */
-    public abstract Location getDisplayLocation();
+    CrossPlatformLocation getDisplayLocation();
 
     /**
      * Check the display is or not already spawned
      *
      * @return Spawned
      */
-    public abstract boolean isSpawned();
+    boolean isSpawned();
 
     /**
      * Sets this display item should be remove
      */
-    public void pendingRemoval() {
-        pendingRemoval = true;
-    }
+    void pendingRemoval();
 
     /**
      * Gets this display item should be remove
      */
-    public boolean isPendingRemoval() {
-        return pendingRemoval;
-    }
+    boolean isPendingRemoval();
 
 }
